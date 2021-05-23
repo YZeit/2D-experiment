@@ -1,6 +1,4 @@
-import numpy as np
 import streamlit as st
-import pandas as pd
 from docplex.mp.sdetails import SolveDetails
 import matplotlib.pyplot as plt
 
@@ -31,9 +29,9 @@ weighting_normalized = [0.5,0.5]
 #weighting_normalized[0] = st.sidebar.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
 #weighting_normalized[1] = st.sidebar.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
 
-a_f1 = 0.60
-a_f2 = 0.30
-a_f1f2 = 0.10
+a_f1 = 0.6
+a_f2 = 0.3
+a_f1f2 = 0.1
 
 f1_nadir = 14
 f2_nadir = 24
@@ -98,6 +96,8 @@ with c1:
     \end{array}
     ''')
     st.subheader('Weightings Assumptions')
+    #weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
+    #weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
     st.write('$\lambda_1=0.5$')
     st.write('$\lambda_2=0.5$')
     m.minimize(achievement_scalarizing_function)
@@ -117,50 +117,80 @@ with c2:
     st.header('Choquet Integral')
     st.write(
         '$C_\mu(x)=\sum_{\{i\}\subseteq G} a(\{i\})(z_i(x)) + \sum_{\{i,j\}\subseteq G} a(\{i,j\})\min(z_i(x),z_j(x))$')
-    st.latex(r'''{\displaystyle \Delta(x)=\frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )},\ldots,\frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )},\ldots,\frac{\big(z_p^r-z_n (x)\big)}{(z_p^r-z_n^{nad})}}''')
-    st.latex(r'''\min_{x \in X}\max_{\mu \in M} C_\mu \big(\Delta(x)\big)''')
+    st.latex(r'''{\displaystyle \Delta(x)=\frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )},\ldots,\frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )},\ldots,\frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad})}}''')
+    st.latex(r'''\min_{x \in X} C_\mu \big(\Delta(x)\big)''')
     st.latex(r'''\begin{array}{rcl}
     {\displaystyle C_\mu(\Delta x)}  & = & {\displaystyle \sum_{\{i\}\subseteq G} a(\{i\})\left(\frac{z_i^r-z_i (x)}{z_i^r-z_i^{nad}}\right) \; +} \\  
     & + &  {\displaystyle\sum_{\{i,j\}\subseteq G} a(\{i,j\})\min\left\{\left(\frac{z_i^r-z_i (x)}{z_i^r-z_i^{nad}}\right),\; \left(\frac{z_j^r-z_j (x)}{z_j^r-z_j^{nad}}\right)\right\}},
 \end{array} ''')
+    st.write('''To linearize the problem, let's introduce a new variable $u$:''')
+    st.latex(r'''{\displaystyle u=\min \big(\frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )},\ldots,\frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )},\ldots,\frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad})}}\big)''')
+    st.latex(r'''\begin{array}{l}
+    {\displaystyle u \geqslant \frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )} - My_1} \\
+    {\displaystyle ...} \\
+    {\displaystyle u \geqslant \frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )} - My_k} \\
+        ... \\
+    {\displaystyle u \geqslant \frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad} )} - My_p} \\
+    \end{array}''')
+    st.latex(r'''\begin{array}{l}
+    {\displaystyle u \leqslant \frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )} + My_1} \\
+    {\displaystyle ...} \\
+    {\displaystyle u \leqslant \frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )} + My_k} \\
+        ... \\
+    {\displaystyle u \leqslant \frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad} )} + My_p} \\
+    {\displaystyle \sum_{k=1}^p y_k = p-1}
+    \end{array}''')
     st.subheader('Preference Assumptions:')
-    st.write('$a(\{z_1\}) = 0.6$')
-    st.write('$a(\{z_2\}) = 0.3$')
-    st.write('$a(\{z_1,z_2\}) = 0.1$  -> slightly positive effect if both criteria are fulfilled')
-    bigm = 10000
-    y = m.binary_var()
+    st.write('$a(\{z_1\})$')
+    a_f1 = st.slider('select the value for the 1st criterion',min_value=0.00, max_value=2.00, value=0.60)
+    st.write('$a(\{z_2\})$')
+    a_f2 = st.slider('select the value for the 2nd criterion',min_value=0.00, max_value=2.00, value=0.30)
+    st.write('$a(\{z_1,z_2\})$')
+    a_f1f2 = st.slider('select the value for interaction of both criteria',min_value=-1.00, max_value=1.00, value=0.10)
+    bigm = 100000
+    #y = m.binary_var()
+    y_1 = m.binary_var()
+    y_2 = m.binary_var()
     min_value = m.continuous_var()
     m.remove_constraint('nu1')
     m.remove_constraint('nu2')
-    delta_x1=((reference_point[0]-objective[0])/(reference_point[0]-f1_nadir))
-    delta_x2=((reference_point[1]-objective[1])/(reference_point[1]-f2_nadir))
+    delta_x1 = m.continuous_var()
+    delta_x2 = m.continuous_var()
+    m.add_constraint(delta_x1 == ((reference_point[0]-objective[0])/(reference_point[0]-f1_nadir)))
+    m.add_constraint(delta_x2 == ((reference_point[1]-objective[1])/(reference_point[1]-f2_nadir)))
+    m.add_constraint(min_value >= delta_x1-(bigm*y_1))
+    m.add_constraint(min_value >= delta_x2-(bigm*y_2))
+    m.add_constraint(min_value <= delta_x1+(bigm*y_1))
+    m.add_constraint(min_value <= delta_x2+(bigm*y_2))
+    m.add_constraint(y_1+y_2==1)
+
     #m.add_constraint(delta_x1-delta_x2<=bigm*(1-y))
     #m.add_constraint(delta_x2-delta_x1<=bigm*y)
     #m.add_constraint(delta_x1 >= min_value)
     #m.add_constraint(delta_x2 >= min_value)
     #m.add_constraint(delta_x1 - bigm*(1-y) <= min_value)
     #m.add_constraint(delta_x2 - bigm*y <= min_value)
-    delta_x1_plus = m.continuous_var(lb=0)
-    delta_x1_minus = m.continuous_var(lb=0)
-    delta_x2_plus = m.continuous_var(lb=0)
-    delta_x2_minus = m.continuous_var(lb=0)
-    m.add_constraint(delta_x1==delta_x1_plus-delta_x1_minus)
-    m.add_constraint(delta_x2 == delta_x2_plus-delta_x2_minus)
-    m.add_constraint(delta_x1_plus-delta_x1_minus-delta_x2_plus+delta_x2_minus <= bigm*(1-y))
-    m.add_constraint(delta_x2_plus-delta_x2_minus-delta_x1_plus+delta_x1_minus <= bigm*y)
-    m.add_constraint(delta_x1_plus-delta_x1_minus >= min_value)
-    m.add_constraint(delta_x2_plus-delta_x2_minus >= min_value)
-    m.add_constraint(delta_x1_plus-delta_x1_minus - bigm*(1-y) <= min_value)
-    m.add_constraint(delta_x2_plus-delta_x2_minus - bigm*y <= min_value)
-    alpha_1 = m.binary_var()
-    alpha_2 = m.binary_var()
-    alpha = m.binary_var()
-    m.add_constraint(delta_x1_minus-delta_x1_plus <= bigm*alpha_1)
-    m.add_constraint(delta_x1_plus-delta_x1_minus <= bigm*(1-alpha_1))
-    m.add_constraint(delta_x2_minus-delta_x2_plus <= bigm*alpha_2)
-    m.add_constraint(delta_x2_plus-delta_x2_minus <= bigm*(1-alpha_2))
-    m.add_constraint(alpha_1 <= alpha)
-    m.add_constraint(alpha_2 <= alpha)
+    #delta_x1_plus = m.continuous_var(lb=0)
+    #delta_x1_minus = m.continuous_var(lb=0)
+    #delta_x2_plus = m.continuous_var(lb=0)
+    #delta_x2_minus = m.continuous_var(lb=0)
+    #m.add_constraint(delta_x1==delta_x1_plus-delta_x1_minus)
+    #m.add_constraint(delta_x2 == delta_x2_plus-delta_x2_minus)
+    #m.add_constraint(delta_x1_plus-delta_x1_minus-delta_x2_plus+delta_x2_minus <= bigm*(1-y))
+    #m.add_constraint(delta_x2_plus-delta_x2_minus-delta_x1_plus+delta_x1_minus <= bigm*y)
+    #m.add_constraint(delta_x1_plus-delta_x1_minus >= min_value)
+    #m.add_constraint(delta_x2_plus-delta_x2_minus >= min_value)
+    #m.add_constraint(delta_x1_plus-delta_x1_minus - bigm*(1-y) <= min_value)
+    #m.add_constraint(delta_x2_plus-delta_x2_minus - bigm*y <= min_value)
+    #alpha_1 = m.binary_var()
+    #alpha_2 = m.binary_var()
+    #alpha = m.binary_var()
+    #m.add_constraint(delta_x1_minus-delta_x1_plus <= bigm*alpha_1)
+    #m.add_constraint(delta_x1_plus-delta_x1_minus <= bigm*(1-alpha_1))
+    #m.add_constraint(delta_x2_minus-delta_x2_plus <= bigm*alpha_2)
+    #m.add_constraint(delta_x2_plus-delta_x2_minus <= bigm*(1-alpha_2))
+    #m.add_constraint(alpha_1 <= alpha)
+    #m.add_constraint(alpha_2 <= alpha)
 
 
     #m.add_constraint(objective[0]<=20)
@@ -177,6 +207,10 @@ with c2:
     st.write('$x_2$: ' + str(x2.solution_value))
     st.write('$z_1(x)$: ' + str(objective[0].solution_value))
     st.write('$z_2(x)$: ' + str(objective[1].solution_value))
+    st.write('u: ' + str(min_value.solution_value))
+    st.write('delta x_1: ' + str(delta_x1.solution_value))
+    st.write('delta x_2: ' + str(delta_x2.solution_value))
+    st.write('choquet: ' + str(choquet.solution_value))
     z1_solution_choquet = objective[0].solution_value
     z2_solution_choquet = objective[1].solution_value
 
