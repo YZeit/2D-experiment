@@ -108,11 +108,6 @@ with c1:
     m.solve()
     solve_details = m.solve_details
     #st.write(solve_details)
-    st.subheader('Solution')
-    st.write('$x_1$: ' + str(x1.solution_value))
-    st.write('$x_2$: ' + str(x2.solution_value))
-    st.write('$z_1(x)$: ' + str(objective[0].solution_value))
-    st.write('$z_2(x)$: ' + str(objective[1].solution_value))
     z1_solution_achievement=objective[0].solution_value
     z2_solution_achievement=objective[1].solution_value
 
@@ -206,17 +201,27 @@ with c2:
     m.solve()
     solve_details = m.solve_details
     #st.write(solve_details)
+
+    #st.write('u: ' + str(min_value.solution_value))
+    #st.write('delta x_1: ' + str(delta_x1.solution_value))
+    #st.write('delta x_2: ' + str(delta_x2.solution_value))
+    #st.write('choquet: ' + str(choquet.solution_value))
+    z1_solution_choquet = objective[0].solution_value
+    z2_solution_choquet = objective[1].solution_value
+
+c1, c2 = st.beta_columns((1, 1))
+with c1:
     st.subheader('Solution')
     st.write('$x_1$: ' + str(x1.solution_value))
     st.write('$x_2$: ' + str(x2.solution_value))
     st.write('$z_1(x)$: ' + str(objective[0].solution_value))
     st.write('$z_2(x)$: ' + str(objective[1].solution_value))
-    st.write('u: ' + str(min_value.solution_value))
-    st.write('delta x_1: ' + str(delta_x1.solution_value))
-    st.write('delta x_2: ' + str(delta_x2.solution_value))
-    st.write('choquet: ' + str(choquet.solution_value))
-    z1_solution_choquet = objective[0].solution_value
-    z2_solution_choquet = objective[1].solution_value
+with c2:
+    st.subheader('Solution')
+    st.write('$x_1$: ' + str(x1.solution_value))
+    st.write('$x_2$: ' + str(x2.solution_value))
+    st.write('$z_1(x)$: ' + str(objective[0].solution_value))
+    st.write('$z_2(x)$: ' + str(objective[1].solution_value))
 
 c1, c2 = st.beta_columns((1, 1))
 with c1:
