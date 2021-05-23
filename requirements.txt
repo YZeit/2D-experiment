@@ -1,3 +1,4 @@
 streamlit==0.82.0
 matplotlib==3.4.2
 docplex==2.20.204
+cplex==20.1.0.1
