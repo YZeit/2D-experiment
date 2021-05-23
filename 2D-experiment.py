@@ -95,13 +95,6 @@ with c1:
          & \nu \in \mathbb{R}. & \\
     \end{array}
     ''')
-    st.subheader('Weightings Assumptions')
-    #weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
-    #weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
-    st.write('$\lambda_1$')
-    weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
-    st.write('$\lambda_2$')
-    weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
 
 
     m.minimize(achievement_scalarizing_function)
@@ -141,13 +134,7 @@ with c2:
     {\displaystyle u \leqslant \frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad} )} + My_p} \\
     {\displaystyle \sum_{k=1}^p y_k = p-1}
     \end{array}''')
-    st.subheader('Preference Assumptions:')
-    st.write('$a(\{z_1\})$')
-    a_f1 = st.slider('Please select the value for the 1st criterion',min_value=0.00, max_value=2.00, value=0.60)
-    st.write('$a(\{z_2\})$')
-    a_f2 = st.slider('Please select the value for the 2nd criterion',min_value=0.00, max_value=2.00, value=0.30)
-    st.write('$a(\{z_1,z_2\})$')
-    a_f1f2 = st.slider('Please select the value for interaction of both criteria',min_value=-1.00, max_value=1.00, value=0.10)
+
     bigm = 100000
     #y = m.binary_var()
     y_1 = m.binary_var()
@@ -212,6 +199,26 @@ with c2:
     x2_solution_choquet = x2.solution_value
     z1_solution_choquet = objective[0].solution_value
     z2_solution_choquet = objective[1].solution_value
+
+c1, c2 = st.beta_columns((1, 1))
+with c1:
+    st.subheader('Weightings Assumptions')
+    #weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
+    #weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
+    st.write('$\lambda_1$')
+    weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
+    st.write('$\lambda_2$')
+    weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
+with c2:
+    st.subheader('Preference Assumptions:')
+    st.write('$a(\{z_1\})$')
+    a_f1 = st.slider('Please select the value for the 1st criterion',min_value=0.00, max_value=2.00, value=0.60)
+    st.write('$a(\{z_2\})$')
+    a_f2 = st.slider('Please select the value for the 2nd criterion',min_value=0.00, max_value=2.00, value=0.30)
+    st.write('$a(\{z_1,z_2\})$')
+    a_f1f2 = st.slider('Please select the value for interaction of both criteria',min_value=-1.00, max_value=1.00, value=0.10)
+    
+
 
 c1, c2 = st.beta_columns((1, 1))
 with c1:
