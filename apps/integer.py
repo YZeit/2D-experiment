@@ -305,7 +305,7 @@ def app():
         extreme_points_z1 = [6, 1, 9, 14, 12, 6]
         extreme_points_z2 = [24, 4,-3, 4, 22, 24]
         ax1.plot(extreme_points_z1, extreme_points_z2, dashes=[6, 2], linewidth=1, label='feasible area')
-        ax1.scatter(feasible_solutions_z1, feasible_solutions_z2, s=6, c='b', label='feasible solutions')
+        ax1.scatter(feasible_solutions_z1, feasible_solutions_z2, s=7, c='b', label='feasible solutions')
         ax1.scatter(reference_point[0], reference_point[1], color='y', label='reference point')
         ax1.scatter(z1_solution_choquet, z2_solution_choquet, color='g', label='obtained solution')
         ax1.plot([reference_point[0], z1_solution_choquet], [reference_point[1], z2_solution_choquet])
