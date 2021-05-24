@@ -115,20 +115,7 @@ def app():
              & \nu \in \mathbb{R}. & \\
         \end{array}
         ''')
-        # achievement scalarizing function
-        m.add_constraint((weighting_normalized[0] * (objective[0] - reference_point[0]) <= nu), ctname='nu1')
-        m.add_constraint((weighting_normalized[1] * (objective[1] - reference_point[1]) <= nu), ctname='nu2')
-        achievement_scalarizing_function = nu + roh * sum(
-            weighting_normalized[i] * (objective[i] - reference_point[i]) for i in range(2))
 
-        m.minimize(achievement_scalarizing_function)
-        m.solve()
-        solve_details = m.solve_details
-        #st.write(solve_details)
-        x1_solution_achievement = x1.solution_value
-        x2_solution_achievement = x2.solution_value
-        z1_solution_achievement=objective[0].solution_value
-        z2_solution_achievement=objective[1].solution_value
 
 
 
@@ -163,6 +150,48 @@ def app():
         {\displaystyle \sum_{k=1}^p y_k = p-1}
         \end{array}''')
 
+    c1, c2 = st.beta_columns((1, 1))
+    with c1:
+        st.subheader('Weightings Assumptions')
+        #weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
+        #weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
+        st.write('$\lambda_1$')
+        weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
+        st.write('$\lambda_2$')
+        weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
+    with c2:
+        st.subheader('Preference Assumptions:')
+        st.write('$a(\{z_1\})$')
+        a_f1 = st.slider('Please select the value for the 1st criterion',min_value=0.00, max_value=2.00, value=0.60)
+        st.write('$a(\{z_2\})$')
+        a_f2 = st.slider('Please select the value for the 2nd criterion',min_value=0.00, max_value=2.00, value=0.30)
+        st.write('$a(\{z_1,z_2\})$')
+        a_f1f2 = st.slider('Please select the value for interaction of both criteria',min_value=-1.00, max_value=1.00, value=0.10)
+
+
+
+    c1, c2 = st.beta_columns((1, 1))
+    with c1:
+        # achievement scalarizing function
+        m.add_constraint((weighting_normalized[0] * (objective[0] - reference_point[0]) <= nu), ctname='nu1')
+        m.add_constraint((weighting_normalized[1] * (objective[1] - reference_point[1]) <= nu), ctname='nu2')
+        achievement_scalarizing_function = nu + roh * sum(
+            weighting_normalized[i] * (objective[i] - reference_point[i]) for i in range(2))
+
+        m.minimize(achievement_scalarizing_function)
+        m.solve()
+        solve_details = m.solve_details
+        #st.write(solve_details)
+        x1_solution_achievement = x1.solution_value
+        x2_solution_achievement = x2.solution_value
+        z1_solution_achievement=objective[0].solution_value
+        z2_solution_achievement=objective[1].solution_value
+        st.subheader('Solution')
+        st.write('$x_1$: ' + str(x1_solution_achievement))
+        st.write('$x_2$: ' + str(x2_solution_achievement))
+        st.write('$z_1(x)$: ' + str(z1_solution_achievement))
+        st.write('$z_2(x)$: ' + str(z2_solution_achievement))
+    with c2:
         bigm = 100000
         #y = m.binary_var()
         y_1 = m.binary_var()
@@ -227,35 +256,6 @@ def app():
         x2_solution_choquet = x2.solution_value
         z1_solution_choquet = objective[0].solution_value
         z2_solution_choquet = objective[1].solution_value
-
-    c1, c2 = st.beta_columns((1, 1))
-    with c1:
-        st.subheader('Weightings Assumptions')
-        #weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
-        #weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
-        st.write('$\lambda_1$')
-        weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0, max_value=1.0, value=0.5)
-        st.write('$\lambda_2$')
-        weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0, max_value=1.0, value=1-weighting_normalized[0])
-    with c2:
-        st.subheader('Preference Assumptions:')
-        st.write('$a(\{z_1\})$')
-        a_f1 = st.slider('Please select the value for the 1st criterion',min_value=0.00, max_value=2.00, value=0.60)
-        st.write('$a(\{z_2\})$')
-        a_f2 = st.slider('Please select the value for the 2nd criterion',min_value=0.00, max_value=2.00, value=0.30)
-        st.write('$a(\{z_1,z_2\})$')
-        a_f1f2 = st.slider('Please select the value for interaction of both criteria',min_value=-1.00, max_value=1.00, value=0.10)
-
-
-
-    c1, c2 = st.beta_columns((1, 1))
-    with c1:
-        st.subheader('Solution')
-        st.write('$x_1$: ' + str(x1_solution_achievement))
-        st.write('$x_2$: ' + str(x2_solution_achievement))
-        st.write('$z_1(x)$: ' + str(z1_solution_achievement))
-        st.write('$z_2(x)$: ' + str(z2_solution_achievement))
-    with c2:
         st.subheader('Solution')
         st.write('$x_1$: ' + str(x1_solution_choquet))
         st.write('$x_2$: ' + str(x2_solution_choquet))
