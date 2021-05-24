@@ -167,7 +167,7 @@ def app():
         #y = m.binary_var()
         y_1 = m.binary_var()
         y_2 = m.binary_var()
-        min_value = m.continuous_var()
+        min_value = m.integer_var()
         m.remove_constraint('nu1')
         m.remove_constraint('nu2')
         delta_x1 = m.continuous_var()
