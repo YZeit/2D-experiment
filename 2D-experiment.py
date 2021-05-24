@@ -8,7 +8,7 @@ app = MultiApp()
 
 # Add all your application here
 app.add_app("Mixed-Integer Linear programming model (MILP)", linear.app)
-app.add_app("Pure Integer Linear programming model (PILP)", integer.app)
+app.add_app("Integer Linear programming model (ILP)", integer.app)
 
 # The main app
 app.run()
