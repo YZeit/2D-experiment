@@ -265,7 +265,7 @@ def app():
     c1, c2 = st.beta_columns((1, 1))
     with c1:
         st.header('The projected feasible region')
-        fig2 = plt.figure()
+        fig2, ax1 = plt.subplots()
         plt.xlabel("$z_1$")
         plt.ylabel("$z_2$")
         plt.yticks([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
@@ -273,7 +273,7 @@ def app():
         plt.xticks([-10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
                     14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25])
         plt.grid(True)
-        ax1 = fig2.add_subplot()
+        #ax1 = fig2.add_subplot()
         ax1.set_xlim([-10, 25])
         ax1.set_ylim([-10, 25])
         ax1.tick_params(axis='both', which='major', labelsize=5)
