@@ -137,6 +137,7 @@ def app():
         {\displaystyle u \geqslant \frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad} )} - My_p} \\
         {\displaystyle \sum_{k=1}^p y_k = p-1}
         \end{array}''')
+        st.subheader('New proposal')
         st.latex(r'''\min_{x \in X}\max_{k=1,2,\ldots,p} \left\{C_\mu \big(\Delta(x_k)\big)\right\},''')
         st.latex(r'''    \begin{array} {rcl}
     {\displaystyle C_\mu \big(\Delta(x_k)\big)} & = & {\displaystyle(a(\{k\})\left(\frac{z_k^r-z_k (x)}{|z_k^r-z_k^{nad}|}\right)+} \\ 
