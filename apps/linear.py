@@ -246,10 +246,10 @@ def app():
         st.write('$x_2$: ' + str(x2_solution_choquet))
         st.write('$z_1(x)$: ' + str(z1_solution_choquet))
         st.write('$z_2(x)$: ' + str(z2_solution_choquet))
-        st.write('min value: ' + str(min_value.solution_value))
+        #st.write('min value: ' + str(min_value.solution_value))
         #st.write('delta x_1: ' + str(delta_x1.solution_value))
         #st.write('delta x_2: ' + str(delta_x2.solution_value))
-        st.write('choquet: ' + str(choquet.solution_value))
+        #st.write('choquet: ' + str(choquet.solution_value))
 
     c1, c2 = st.beta_columns((1, 1))
     with c1:
