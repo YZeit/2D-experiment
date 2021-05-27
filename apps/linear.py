@@ -35,8 +35,8 @@ def app():
     f1_nadir = 14
     f2_nadir = 24
 
-    f1_utopian = 1
-    f2_utopian = -3
+    f1_ideal = 1
+    f2_ideal = -3
 
     # Optimization Model
     from docplex.mp.model import Model
@@ -272,6 +272,9 @@ def app():
         ax1.plot(extreme_points_z1, extreme_points_z2, dashes=[6, 2], linewidth=1, label='feasible area')
         ax1.scatter(reference_point[0], reference_point[1], color='y', label='reference point')
         ax1.scatter(z1_solution_achievement, z2_solution_achievement,color='g', label='obtained solution')
+        ax1.scatter(f1_ideal, f2_ideal, c='lightgreen', label='ideal point')
+        ax1.scatter(f1_nadir, f2_nadir, c='red', label='nadir point')
+        ax1.plot([f1_ideal, f1_nadir], [f2_ideal, f2_nadir], color='black', linewidth=1, dashes=[6,2])
         ax1.plot([reference_point[0], z1_solution_achievement], [reference_point[1], z2_solution_achievement])
         ax1.legend()
         st.pyplot(fig2)
@@ -295,6 +298,9 @@ def app():
         ax1.plot(extreme_points_z1, extreme_points_z2, dashes=[6, 2], linewidth=1, label='feasible area')
         ax1.scatter(reference_point[0], reference_point[1], color='y', label='reference point')
         ax1.scatter(z1_solution_choquet, z2_solution_choquet, color='g', label='obtained solution')
+        ax1.scatter(f1_ideal, f2_ideal, c='lightgreen', label='ideal point')
+        ax1.scatter(f1_nadir, f2_nadir, c='red', label='nadir point')
+        ax1.plot([f1_ideal, f1_nadir], [f2_ideal, f2_nadir], color='black', linewidth=1, dashes=[6,2])
         ax1.plot([reference_point[0], z1_solution_choquet], [reference_point[1], z2_solution_choquet])
         ax1.legend()
         st.pyplot(fig2)
