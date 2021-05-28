@@ -7,7 +7,7 @@ app = MultiApp()
 
 
 # Add all your application here
-app.add_app("Linear model", linear.app)
+#app.add_app("Linear model", linear.app)
 app.add_app("Integer model (Yannik)", integer.app)
 app.add_app("Integer model (Salvo)", integer_salvo.app)
 
