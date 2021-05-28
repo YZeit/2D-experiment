@@ -7,6 +7,7 @@ def app():
     #example bi-objective linear program
     st.subheader('Example:')
 
+
     st.latex(r'''
         \begin{array}{rll}
          \min & f_1(x) = 3x1 + x2 & \\
@@ -137,18 +138,35 @@ def app():
         {\displaystyle u \geqslant \frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad} )} - My_p} \\
         {\displaystyle \sum_{k=1}^p y_k = p-1}
         \end{array}''')
-        st.subheader('New proposal')
+        st.subheader('New proposal: Yannik')
+        st.write('Minimize the max of the choquet integral for all criteria instead of minimizing the entire choquet integral (analog to the achievement scalarizing functions):')
         st.latex(r'''\min_{x \in X}\max_{k=1,2,\ldots,p} \left\{C_\mu \big(\Delta(x_k)\big)\right\},''')
+        st.write('with:')
         st.latex(r'''    \begin{array} {rcl}
     {\displaystyle C_\mu \big(\Delta(x_k)\big)} & = & {\displaystyle(a(\{k\})\left(\frac{z_k^r-z_k (x)}{|z_k^r-z_k^{nad}|}\right)+} \\ 
     & + & {\displaystyle\sum_{\{k,j\}\subseteq G} a(\{k,j\})\min\left\{\left(\frac{z_k^r-z_k (x)}{|z_k^r-z_k^{nad}|}\right), \left(\frac{z_j^r-z_j (x)}{|z_j^r-z_j^{nad}|}\right)\right\}}
     \end{array}''')
+        st.write('To linearize the minmax problem in the proposed Model a new real-valued variable $\mathcal{v}$ is proposed to introduce. The formulation in the proposed Model enables to project reference point from both, the inside and outside of the feasible region onto the Pareto front:')
         st.latex(r'''    \begin{array}{rll}
          \min & \nu  & \\
          s.t.: & {\displaystyle C_\mu \big(\Delta(x_k)\big)} \leqslant \nu, & k = 1,2 \\
          & x \in X & \\
          & \nu \in \mathbb{R}. & \\
     \end{array}''')
+        st.write(' Moreover, I propose to use the absolute value of the difference between the reference point and the nadir point for normalization in order to avoid negative values. Therefore, the equation would turn to (please note, that this equation needs to be linearized):')
+        st.latex(r'''\begin{array} {rcl}
+    {\displaystyle C_\mu \big(\Delta(x_k)\big)} & = & {\displaystyle(a(\{k\})\left(\frac{z_k^r-z_k (x)}{|z_k^r-z_k^{nad}|}\right)+} \\ 
+    & + & {\displaystyle\sum_{\{k,j\}\subseteq G} a(\{k,j\})\min\left\{\left(\frac{z_k^r-z_k (x)}{|z_k^r-z_k^{nad}|}\right), \left(\frac{z_j^r-z_j (x)}{|z_j^r-z_j^{nad}|}\right)\right\}}
+    \end{array}''')
+        st.write('For our bi-objective example, the proposed Model would result in:')
+        st.latex(r'''    \begin{array}{rll}
+         \min & \nu  & \\
+         s.t.: & {\displaystyle(a(\{z_1\})\left(\frac{z_1^r-z_1 (x)}{|z_1^r-z_1^{nad}|}\right)+ a(\{z_1,z_2\})\min\left\{\left(\frac{z_1^r-z_1 (x)}{|z_1^r-z_1^{nad}|}\right), \left(\frac{z_2^r-z_2 (x)}{|z_2^r-z_2^{nad}|}\right)\right\}} \leqslant \nu \\
+         & {\displaystyle(a(\{z_2\})\left(\frac{z_2^r-z_2 (x)}{|z_2^r-z_2^{nad}|}\right)+ a(\{z_1,z_2\})\min\left\{\left(\frac{z_1^r-z_1 (x)}{|z_1^r-z_1^{nad}|}\right), \left(\frac{z_2^r-z_2 (x)}{|z_2^r-z_2^{nad}|}\right)\right\}} \leqslant \nu \\
+         & x \in X & \\
+         & \nu \in \mathbb{R}. & \\
+    \end{array}''')
+
     c1, c2 = st.beta_columns((1, 1))
     with c1:
         st.subheader('Weightings Assumptions')
@@ -157,21 +175,26 @@ def app():
         st.write('$\lambda_1$')
         weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0,
                                             max_value=1.0, value=0.5)
-        st.write('$\lambda_2$')
-        weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0,
-                                            max_value=1.0, value=1 - weighting_normalized[0])
+        weighting_normalized[1] = round(1 - weighting_normalized[0],2)
+        st.write('$\lambda_2$ (_Please note: this value will be automatically updated with regard to the condition shown below_)')
+        st.write(str(weighting_normalized[1]))
+        st.latex(r'''\lambda_1 + \lambda_2 = 1''')
     with c2:
         st.subheader('Preference Assumptions:')
         st.write('$a(\{z_1\})$')
-        a_f1 = st.slider('Please select the value for the 1st criterion', min_value=0.00, max_value=2.00,
+        a_f1 = st.slider('Please select the value for the 1st criterion', min_value=0.00, max_value=1.00,
                          value=0.60)
         st.write('$a(\{z_2\})$')
-        a_f2 = st.slider('Please select the value for the 2nd criterion', min_value=0.00, max_value=2.00,
+        a_f2 = st.slider('Please select the value for the 2nd criterion', min_value=0.00, max_value=1.00,
                          value=0.30)
-        st.write('$a(\{z_1,z_2\})$')
-        a_f1f2 = st.slider('Please select the value for interaction of both criteria', min_value=-1.00,
-                           max_value=1.00, value=0.10)
-
+        st.write('$a(\{z_1,z_2\})$ (_Please note: this value will be automatically updated with regard to the condition shown below_)')
+        a_f1f2 = round(1 - a_f1 - a_f2, 2)
+        st.write(str(a_f1f2))
+        st.write('With regard to the 2-additive measures, following formulations must be ensured:')
+        st.latex(r'''\begin{array}{rl}
+    {\displaystyle a(\emptyset)=0,}  &  {\displaystyle \sum_{i \in G} a(\{i\}) + \sum_{\{i,j\} \subseteq G} a(\{i,j\}) = 1} \\ 
+    {\displaystyle a(\{i\}) \geqslant 0,\forall i \in G,} & {\displaystyle  a(\{i\}) + \sum_{j \in T} a(\{i,j\}) \geqslant 0, \forall i \in G, \forall T \subseteq G \setminus \{i\}.}
+\end{array} ''')
     # achievement scalarizing function
     m.add_constraint((weighting_normalized[0] * (objective[0] - reference_point[0]) <= nu), ctname='nu1')
     m.add_constraint((weighting_normalized[1] * (objective[1] - reference_point[1]) <= nu), ctname='nu2')
@@ -296,7 +319,7 @@ def app():
         ax1.scatter(z1_solution_achievement, z2_solution_achievement,color='g', label='obtained solution')
         ax1.scatter(f1_ideal, f2_ideal, c='lightgreen', label='ideal point')
         ax1.scatter(f1_nadir, f2_nadir, c='red', label='nadir point')
-        ax1.plot([f1_ideal, f1_nadir], [f2_ideal, f2_nadir], color='black', linewidth=1, dashes=[6,2])
+        #ax1.plot([f1_ideal, f1_nadir], [f2_ideal, f2_nadir], color='black', linewidth=1, dashes=[6, 2])
         ax1.plot([reference_point[0], z1_solution_achievement], [reference_point[1], z2_solution_achievement])
         ax1.legend()
         st.pyplot(fig2)
@@ -323,7 +346,7 @@ def app():
         ax1.scatter(z1_solution_choquet, z2_solution_choquet, color='g', label='obtained solution')
         ax1.scatter(f1_ideal, f2_ideal, c='lightgreen', label='ideal point')
         ax1.scatter(f1_nadir, f2_nadir, c='red', label='nadir point')
-        ax1.plot([f1_ideal, f1_nadir], [f2_ideal, f2_nadir], color='black', linewidth=1, dashes=[6,2])
+        #ax1.plot([f1_ideal, f1_nadir], [f2_ideal, f2_nadir], color='black', linewidth=1, dashes=[6,2])
         ax1.plot([reference_point[0], z1_solution_choquet], [reference_point[1], z2_solution_choquet])
         ax1.legend()
         st.pyplot(fig2)

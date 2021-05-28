@@ -168,20 +168,27 @@ def app():
         st.write('$\lambda_1$')
         weighting_normalized[0] = st.slider('Please select the weighting for the 1st objective', min_value=0.0,
                                             max_value=1.0, value=0.5)
-        st.write('$\lambda_2$')
-        weighting_normalized[1] = st.slider('Please select the weighting for the 2nd objective', min_value=0.0,
-                                            max_value=1.0, value=1 - weighting_normalized[0])
+        weighting_normalized[1] = round(1 - weighting_normalized[0],2)
+        st.write('$\lambda_2$ (_Please note: this value will be automatically updated with regard to the condition shown below_)')
+        st.write(str(weighting_normalized[1]))
+        st.latex(r'''\lambda_1 + \lambda_2 = 1''')
     with c2:
         st.subheader('Preference Assumptions:')
         st.write('$a(\{z_1\})$')
-        a_f1 = st.slider('Please select the value for the 1st criterion', min_value=0.00, max_value=2.00,
+        a_f1 = st.slider('Please select the value for the 1st criterion', min_value=0.00, max_value=1.00,
                          value=0.60)
         st.write('$a(\{z_2\})$')
-        a_f2 = st.slider('Please select the value for the 2nd criterion', min_value=0.00, max_value=2.00,
+        a_f2 = st.slider('Please select the value for the 2nd criterion', min_value=0.00, max_value=1.00,
                          value=0.30)
-        st.write('$a(\{z_1,z_2\})$')
-        a_f1f2 = st.slider('Please select the value for interaction of both criteria', min_value=-1.00,
-                           max_value=1.00, value=0.10)
+        st.write(
+            '$a(\{z_1,z_2\})$ (_Please note: this value will be automatically updated with regard to the condition shown below_)')
+        a_f1f2 = round(1 - a_f1 - a_f2, 2)
+        st.write(str(a_f1f2))
+        st.write('With regard to the 2-additive measures, following formulations must be ensured:')
+        st.latex(r'''\begin{array}{rl}
+            {\displaystyle a(\emptyset)=0,}  &  {\displaystyle \sum_{i \in G} a(\{i\}) + \sum_{\{i,j\} \subseteq G} a(\{i,j\}) = 1} \\ 
+            {\displaystyle a(\{i\}) \geqslant 0,\forall i \in G,} & {\displaystyle  a(\{i\}) + \sum_{j \in T} a(\{i,j\}) \geqslant 0, \forall i \in G, \forall T \subseteq G \setminus \{i\}.}
+        \end{array} ''')
 
     # achievement scalarizing function
     m.add_constraint((weighting_normalized[0] * (objective[0] - reference_point[0]) <= nu), ctname='nu1')
