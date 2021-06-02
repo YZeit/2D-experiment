@@ -7,9 +7,9 @@ app = MultiApp()
 
 
 # Add all your application here
-app.add_app("Linear model", linear.app)
-app.add_app("Integer model (Yannik)", integer.app)
-app.add_app("Integer model (Salvo)", integer_salvo.app)
+#app.add_app("Linear model", linear.app)
+#app.add_app("Integer model (Yannik)", integer.app)
+#app.add_app("Integer model (Salvo)", integer_salvo.app)
 app.add_app("Test Choquet metric", test.app)
 
 # The main app
