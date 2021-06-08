@@ -11,7 +11,7 @@ app = MultiApp()
 #app.add_app("Integer model (Yannik)", integer.app)
 #app.add_app("Integer model (Salvo)", integer_salvo.app)
 app.add_app("Choquet min-norm", decomposed_choquet_L1.app)
-app.add_app("Choquet Tschebycheff (max-)norm", decomposed_choquet_Linf.app)
+app.add_app("Choquet Tchebycheff (max-)norm", decomposed_choquet_Linf.app)
 
 # The main app
 app.run()
