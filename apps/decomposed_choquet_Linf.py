@@ -244,13 +244,15 @@ def app():
     #m1.add_constraint((nu_3 >= nu_2))
     #m1.add_constraint((nu_3 <= nu_1+(bigm*y_2)))
     #m1.add_constraint((nu_3 <= nu_2+(bigm*y_1)))
-
-    if a_f1f2>=0:
-        m1.add_constraint((nu_3 >= nu_1-(bigm*y_1)))
-        m1.add_constraint((nu_3 >= nu_2-(bigm*y_2)))
-    else:
-        m1.add_constraint((nu_3 >= nu_1))
-        m1.add_constraint((nu_3 >= nu_2))
+    m1.add_constraint((nu_3 >= nu_1-(bigm*y_1)))
+    m1.add_constraint((nu_3 >= nu_2-(bigm*y_2)))
+    
+    #if a_f1f2>=0:
+    #    m1.add_constraint((nu_3 >= nu_1-(bigm*y_1)))
+    #    m1.add_constraint((nu_3 >= nu_2-(bigm*y_2)))
+    #else:
+    #    m1.add_constraint((nu_3 >= nu_1))
+    #    m1.add_constraint((nu_3 >= nu_2))
 
     #m.add_constraint(min_value >= delta_x1-(bigm*y_1))
     #m.add_constraint(min_value >= delta_x2-(bigm*y_2))
