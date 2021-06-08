@@ -184,11 +184,11 @@ def app():
     y_1 = m1.binary_var()
     y_2 = m1.binary_var()
     #min_value = m.continuous_var()
-    nu_1 = m1.continuous_var()
-    nu_2 = m1.continuous_var()
-    nu_3 = m1.continuous_var()
-    delta_x1 = m1.continuous_var()
-    delta_x2 = m1.continuous_var()
+    nu_1 = m1.continuous_var(lb=-1000)
+    nu_2 = m1.continuous_var(lb=-1000)
+    nu_3 = m1.continuous_var(lb=-1000)
+    delta_x1 = m1.continuous_var(lb=-10000)
+    delta_x2 = m1.continuous_var(lb=-10000)
 
 
     #m.add_constraint(min_value <= delta_x1+(bigm*y_1))
@@ -214,13 +214,14 @@ def app():
 
     m1.add_constraint(delta_x1 == ((objective[0]-z1_ref_star)/(f1_nadir-z1_ref_star)))
     m1.add_constraint(delta_x2 == ((objective[1]-z2_ref_star)/(f2_nadir-z2_ref_star)))
-    m1.add_constraint(delta_x1 >= 0)
-    m1.add_constraint(delta_x2 >= 0)
+
     choquet_1 = (lambda_1_1*delta_x1+lambda_1_2*delta_x2)
     choquet_2 = (lambda_2_1*delta_x1+lambda_2_2*delta_x2)
     if a_f1f2>=0:
         m1.add_constraint(nu_1 >= choquet_1-(bigm*y_1))
         m1.add_constraint(nu_1 >= choquet_2-(bigm*y_2))
+        m1.add_constraint(delta_x1 >= 0)
+        m1.add_constraint(delta_x2 >= 0)
     else:
         m1.add_constraint(nu_1 >= choquet_1)
         m1.add_constraint(nu_1 >= choquet_2)
