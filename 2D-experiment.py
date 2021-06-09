@@ -9,7 +9,7 @@ app = MultiApp()
 # Add all your application here
 #app.add_app("Linear model", linear.app)
 #app.add_app("Integer model (Yannik)", integer.app)
-app.add_app("Integer model (Salvo)", integer_salvo.app)
+#app.add_app("Integer model (Salvo)", integer_salvo.app)
 app.add_app("Choquet min-norm", decomposed_choquet_L1.app)
 app.add_app("Choquet Tchebycheff (max-)norm", decomposed_choquet_Linf.app)
 
