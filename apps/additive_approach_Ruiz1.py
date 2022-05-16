@@ -94,7 +94,7 @@ def app():
     st.write('Through replacing $C_\mu\left(\Delta(x)\right)$ by the Choquet metric with respect to the 2-additive fuzzy measure, the Choquet program can be written as:')
     st.latex(r'''\min_{x \in X} \left\{ \sum_{\{i\}\subseteq G} a(\{i\})\Delta_i (x) +\sum_{\{i,j\}\subseteq G} a(\{i,j\})\min\left\{\Delta_i (x), \Delta_j (x)\right\} \right\}''')
     st.write(' In order to linearize the $\min$ formulation in the previous equation, we introduce a new non-negative variable $\beta$. The linearized Choquet program can then be formulated as:')
-    st-latex(r'''\begin{array}{rl}
+    st.latex(r'''\begin{array}{rl}
          \min               &  {\displaystyle \sum_{\{i\}\subseteq G} a(\{i\}) \Delta_i (x) + \sum_{\{i,j\}\subseteq G} a(\{i,j\}) \beta(\{i,j\})}  \\
          \mbox{subject to:} & {\displaystyle \beta(\{i,j\}) \geqslant \Delta_i (x) - My_{(\{i,j\}),1}}, \;\; \forall (\{i,j\}) \subseteq G\\
          & {\displaystyle \beta(\{i,j\}) \geqslant \Delta_j (x) - My_{(\{i,j\}),2}}, \;\; \forall (\{i,j\}) \subseteq G\\
