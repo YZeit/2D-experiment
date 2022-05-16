@@ -91,7 +91,7 @@ def app():
     st.subheader('The Choquet program')
     st.write('To find the feasible solution $x$ that is closest to the reference point with respect to the introduced Choquet distance, we look for a feasible solution $x$ minimizing $C_\mu (\Delta (x))$. The following optimization program can be defined as the Choquet program:')
     st.latex(r'''\min_{x \in X} C_\mu (\Delta(x))''')
-    st.write('Through replacing $C_\mu\left(\Delta(x)\right)$ by the Choquet metric with respect to the 2-additive fuzzy measure, the Choquet program can be written as:')
+    st.write('Through replacing $C_\mu(\Delta(x))$ by the Choquet metric with respect to the 2-additive fuzzy measure, the Choquet program can be written as:')
     st.latex(r'''\min_{x \in X} \left\{ \sum_{\{i\}\subseteq G} a(\{i\})\Delta_i (x) +\sum_{\{i,j\}\subseteq G} a(\{i,j\})\min\left\{\Delta_i (x), \Delta_j (x)\right\} \right\}''')
     st.write(' In order to linearize the $\min$ formulation in the previous equation, we introduce a new non-negative variable $\beta$. The linearized Choquet program can then be formulated as:')
     st.latex(r'''\begin{array}{rl}
