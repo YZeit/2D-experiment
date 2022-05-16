@@ -87,46 +87,21 @@ def app():
     {\displaystyle C_\mu(\Delta x)}  & = & {\displaystyle \sum_{\{i\}\subseteq G} a(\{i\})\left(\frac{z_i^r-z_i (x)}{z_i^r-z_i^{nad}}\right) \; +} \\  
     & + &  {\displaystyle\sum_{\{i,j\}\subseteq G} a(\{i,j\})\min\left\{\left(\frac{z_i^r-z_i (x)}{z_i^r-z_i^{nad}}\right),\; \left(\frac{z_j^r-z_j (x)}{z_j^r-z_j^{nad}}\right)\right\}},
 \end{array} ''')
-    st.write('''To linearize the problem, let's introduce a new variable $u$:''')
-    st.latex(r'''{\displaystyle u=\min \big(\frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )},\ldots,\frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )},\ldots,\frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad})}}\big)''')
-    st.latex(r'''\begin{array}{l}
-    {\displaystyle u \geqslant \frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )} - My_1} \\
-    {\displaystyle ...} \\
-    {\displaystyle u \geqslant \frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )} - My_k} \\
-        ... \\
-    {\displaystyle u \geqslant \frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad} )} - My_p} \\
-    {\displaystyle \sum_{k=1}^p y_k = p-1}
-    \end{array}''')
-    st.write('To ensure that the minimization model also works for a negative value of $a(\{i,j\})$ (e.g., in case of overlap effect between $i$ and $j$) following constraints are introduced:')
-    st.latex(r'''\begin{array}{l}
-    {\displaystyle u \leqslant \frac{\big(z_1^r-z_1 (x)\big)}{(z_1^r-z_1^{nad} )}} \\
-    {\displaystyle ...} \\
-    {\displaystyle u \leqslant \frac{\big(z_k^r-z_k (x)\big)}{(z_k^r-z_k^{nad} )}} \\
-        ... \\
-    {\displaystyle u \leqslant \frac{\big(z_p^r-z_p (x)\big)}{(z_p^r-z_p^{nad} )}}
-    \end{array}''')
-    st.subheader('New proposal: Salvo')
-    st.write('In case the objective functions have to be minimized, we can proceed as follows. Taking into account that the Choquet integral aggregates only positive values, we want to compare each solution $x \in X$ with a point $z^{r*}=(z_1^{r*},\ldots,z_p^{r*})$ dominating the ideal point $z^{id}=(z_1^{id},\ldots,z_p^{id})$, that is, $z_1^{r*}\le z_1^{id},\ldots,z_p^{r*}\le z_p^{id}$. We determine this point $z^{r*}$ as the closest point to the ideal point lying on the straight line linking the nadir point $z^{nad}$ with the ideal point $z_{id}$. The point $z^{r*}$ can be obtained as follows.')
-    st.write('1. Solve the following optimization problem')
-    st.latex(r'''\begin{array}{rll}
-     \min & \lambda  & \\
-     s.t.: & z_i^{nad}-\lambda (z_i^{nad}-z_i^r) \leqslant z_i^{id}, & i = 1,\ldots,p \\
-              & \lambda \in \mathbb{R}. & \\
-\end{array}''')
-    st.write('2. Define point $z^{r*}$ as')
-    st.latex(r'''z_i^{r*}=z_i^{nad}-\lambda^* (z_i^{nad}-z_i^r), i = 1,\ldots,p''')
-    st.write('with $\lambda^*$ is the minimal value of $\lambda$ supplied by the optimization problem at point 1.')
-    st.write('Using the above point $z^{r*}$, for each feasible solution $x=(x_1,\ldots,x_\ell,\ldots,x_n)\in X$ we compute the Choquet integral with respect to the capacity $\mu$ of the vector ')
-    st.latex(r'''{\displaystyle \Delta(x)= \left(\frac{z_1 (x)-z_1^{r*}}{z_1^{nad}-z_1^{r*}}\right),\ldots,\left(\frac{z_k (x)-z_k^{r*}}{z_k^{nad}-z_k^{r*}}\right),\ldots,\left(\frac{z_n (x)-z_p^{r*}}{z_n^{nad}-z_p^{r*}}\right)}''')
-    st.write('denoted by $C_\mu (\Delta^*(x))$ and we look for the feasible solution $x$ minimizing $C_\mu (\Delta^*(x))$. Using non additive robust ordinal regression, we can consider also a set $M$ of capacities $\mu$ compatible with the preference information supplied by the DM. In this case, we can compute the following value:')
-    st.latex(r'''\min_{x \in X}\max_{\mu \in M} \left\{C_\mu \big(\Delta^*(x)\big)\right\}''')
-    st.write('Please note that in this example we only consider one set of capacities, so the model implemented in this tool is as follows:')
-    st.latex(r'''\min_{x \in X}\left\{C_\mu \big(\Delta^*(x)\big)\right\}''')
-    st.write('With respect to a 2-additive fuzzy measure, the representation of the Choquet integral with respect to the vector $\Delta^*(x)$ results in:')
-    st.latex(r'''\begin{array}{rcl}
-{\displaystyle C_\mu(\Delta^*(x)}  & = & {\displaystyle \sum_{\{i\}\subseteq G} a(\{i\})\left(\frac{z_i (x)-z_i^{r*}}{z_i^{nad}-z_i^{r*}}\right) \; +} \\  
-& + &  {\displaystyle\sum_{\{i,j\}\subseteq G} a(\{i,j\})\min\left\{\left(\frac{z_i (x)-z_i^{r*}}{z_i^{nad}-z_i^{r*}}\right),\; \left(\frac{z_j (x)-z_j^{r*}}{z_j^{nad}-z_j^{r*}}\right)\right\}},
-\end{array} ''')
+    
+    st.subheader('The Choquet program')
+    st.write('To find the feasible solution $x$ that is closest to the reference point with respect to the introduced Choquet distance, we look for a feasible solution $x$ minimizing $C_\mu (\Delta (x))$. The following optimization program can be defined as the Choquet program:')
+    st.latex(r'''\min_{x \in X} C_\mu (\Delta(x))''')
+    st.write('Through replacing $C_\mu \left(\Delta (x) \right)$ by the Choquet metric with respect to the 2-additive fuzzy measure, the Choquet program can be written as:')
+    st.latex(r'''\min_{x \in X} \left\{ \sum_{\{i\}\subseteq G} a(\{i\})\Delta_i (x) +\sum_{\{i,j\}\subseteq G} a(\{i,j\})\min\left\{\Delta_i (x), \Delta_j (x)\right\} \right\}''')
+    st.write(' In order to linearize the $\min$ formulation in the previous equation, we introduce a new non-negative variable $\beta$. The linearized Choquet program can then be formulated as:')
+    st-latex(r'''         \min               &  {\displaystyle \sum_{\{i\}\subseteq G} a(\{i\}) \Delta_i (x) + \sum_{\{i,j\}\subseteq G} a(\{i,j\}) \beta(\{i,j\})}  \\
+         \mbox{subject to:} & {\displaystyle \beta(\{i,j\}) \geqslant \Delta_i (x) - My_{(\{i,j\}),1}}, \;\; \forall (\{i,j\}) \subseteq G\\
+         & {\displaystyle \beta(\{i,j\}) \geqslant \Delta_j (x) - My_{(\{i,j\}),2}}, \;\; \forall (\{i,j\}) \subseteq G\\
+         & {\displaystyle y_{(\{i,j\}),1} + y_{(\{i,j\}),2} = 1}, \;\; \forall (\{i,j\}) \subseteq G \\
+                            & x \in X \\ 
+                            & \beta(\{i,j\}) \geqslant 0,\;\; \forall (\{i,j\}) \subseteq G''')
+    st.write('with $M$ being an arbitrary big value.')
+    
     st.subheader('Preference Assumptions:')
     st.write('Please select the preference assumptions in the sidebar')
     st.sidebar.header('Preference Information')
