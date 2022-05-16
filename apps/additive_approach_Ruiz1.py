@@ -103,7 +103,7 @@ def app():
                             & \beta(\{i,j\}) \geqslant 0,\;\; \forall (\{i,j\}) \subseteq G . 
     \end{array}''')
     st.write('with $M$ being an arbitrary big value.')
-    st.write('Using the ideal outcome vector as reference point ensures to find a supported efficient solution. However, the proposed Choquet metric in its current setting has two main drawbacks that result in the program's inability to find all non-dominated solutions:')
+    st.write('''Using the ideal outcome vector as reference point ensures to find a supported efficient solution. However, the proposed Choquet metric in its current setting has two main drawbacks that result in the program's inability to find all non-dominated solutions:''')
     st.write('1. negative distances to the reference point can not be considered')
     st.write('2. solutions that dominate the reference point can not be identified')
     st.write('Among these issues, the Choquet metric is limited in reaching unsupported non-dominated solutions as it is also the case for the simple additive metric (Ruiz et al, 2008). To overcome these issues, we will present several adjustments to the initially proposed Choquet program.')         
