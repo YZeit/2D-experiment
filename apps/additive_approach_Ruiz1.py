@@ -208,11 +208,11 @@ def app():
         st.write('$x_2$: ' + str(x2_solution_choquet))
         st.write('$z_1(x)$: ' + str(z1_solution_choquet))
         st.write('$z_2(x)$: ' + str(z2_solution_choquet))
-        st.write('min value: ' + str(min_value.solution_value))
+        #st.write('min value: ' + str(min_value.solution_value))
         st.write('solution: ' + str(choquet.solution_value))
-        st.write('delta1: ' + str(delta_x1.solution_value))
-        st.write('delta2: ' + str(delta_x2.solution_value))
-        st.write('y: ' + str(y.solution_value))
+        #st.write('delta1: ' + str(delta_x1.solution_value))
+        #st.write('delta2: ' + str(delta_x2.solution_value))
+        #st.write('y: ' + str(y.solution_value))
 
         # plot the results
         st.header('The projected feasible region')
@@ -254,7 +254,8 @@ def app():
         ax1.legend(fontsize='x-small')
         st.pyplot(fig2)
     except:
-        st.write('could not solve the first problem')
+        #st.write('could not solve the first problem')
+        hallo = 1
 
         m1 = Model(name='Bi-objective convex Pareto Front')
 
